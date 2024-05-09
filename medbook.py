@@ -57,6 +57,8 @@ class medbook:
         result, resp = self.get_html(bookid, code)
         if not result:
             return
+        name=name.replace("/","|")
+        name=name.replace("\\","|")
         with open(os.path.join(the_dir, f"{name}.html"), "w", encoding="utf-8") as f:
             f.write(resp)
     def main(self):
