@@ -54,14 +54,15 @@ class medbook:
     def main(self):
         for bookid in tqdm.tqdm(self.json_data,desc=self.file_path):
             directory_tree_nodes=self.request_book(bookid)
-            if not os.path.exists(f"./data/{bookid}"):
-                os.mkdir(f"./data/{bookid}")
+            the_dir=f"/data_share/datasets/crawler_raw_data/ipmph/{bookid}"
+            if not os.path.exists(the_dir):
+                os.mkdir(the_dir)
             for every in tqdm.tqdm(directory_tree_nodes,desc=bookid):
                 the_id, name, code, belongname, open_if=every
                 result,resp=self.get_html(bookid,code)
                 if not result:
                     continue
-                with open(f"./data/{bookid}/{name}.html", "w", encoding="utf-8") as f:
+                with open(os.path.join(the_id,f"{name}.html"), "w", encoding="utf-8") as f:
                     f.write(resp)
 
 if __name__ == '__main__':
