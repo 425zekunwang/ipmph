@@ -54,13 +54,17 @@ class medbook:
 
     def run(self,every,bookid,the_dir):
         the_id, name, code, belongname, open_if = every
+        name=name.replace("/","|")
+        name=name.replace("\\","|")
+        file_path=os.path.join(the_dir, f"{name}.html")
+        if os.path.exists(file_path):
+            return
         result, resp = self.get_html(bookid, code)
         if not result:
             return
-        name=name.replace("/","|")
-        name=name.replace("\\","|")
-        with open(os.path.join(the_dir, f"{name}.html"), "w", encoding="utf-8") as f:
+        with open(file_path, "w", encoding="utf-8") as f:
             f.write(resp)
+        print(file_path,"done")
     def main(self):
         for bookid in tqdm.tqdm(self.json_data[:1],desc=self.file_path):
             directory_tree_nodes=self.request_book(bookid)
