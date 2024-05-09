@@ -51,19 +51,23 @@ class medbook:
         except:
             print(traceback.format_exc())
             return False,None
+
+    def run(self,every,bookid,the_dir):
+        the_id, name, code, belongname, open_if = every
+        result, resp = self.get_html(bookid, code)
+        if not result:
+            return
+        with open(os.path.join(the_dir, f"{name}.html"), "w", encoding="utf-8") as f:
+            f.write(resp)
     def main(self):
-        for bookid in tqdm.tqdm(self.json_data,desc=self.file_path):
+        for bookid in tqdm.tqdm(self.json_data[:1],desc=self.file_path):
             directory_tree_nodes=self.request_book(bookid)
             the_dir=f"/data_share/datasets/crawler_raw_data/ipmph/{bookid}"
             if not os.path.exists(the_dir):
                 os.mkdir(the_dir)
             for every in tqdm.tqdm(directory_tree_nodes,desc=bookid):
-                the_id, name, code, belongname, open_if=every
-                result,resp=self.get_html(bookid,code)
-                if not result:
-                    continue
-                with open(os.path.join(the_dir,f"{name}.html"), "w", encoding="utf-8") as f:
-                    f.write(resp)
+                self.pool.submit(self.run,every,bookid,the_dir)
+        self.pool.shutdown(wait=True)
 
 if __name__ == '__main__':
     medbook_crawler=medbook()
