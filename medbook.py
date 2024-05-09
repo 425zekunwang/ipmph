@@ -62,7 +62,7 @@ class medbook:
                 result,resp=self.get_html(bookid,code)
                 if not result:
                     continue
-                with open(os.path.join(the_id,f"{name}.html"), "w", encoding="utf-8") as f:
+                with open(os.path.join(the_dir,f"{name}.html"), "w", encoding="utf-8") as f:
                     f.write(resp)
 
 if __name__ == '__main__':
