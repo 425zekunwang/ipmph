@@ -66,7 +66,7 @@ class medbook:
             f.write(resp)
         print(file_path,"done")
     def main(self):
-        for bookid in tqdm.tqdm(self.json_data[:1],desc=self.file_path):
+        for bookid in tqdm.tqdm(self.json_data[1:11],desc=self.file_path):
             directory_tree_nodes=self.request_book(bookid)
             the_dir=f"/data_share/datasets/crawler_raw_data/ipmph/{bookid}"
             if not os.path.exists(the_dir):
