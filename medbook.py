@@ -57,8 +57,8 @@ class medbook:
         name=name.replace("/","|")
         name=name.replace("\\","|")
         file_path=os.path.join(the_dir, f"{name}.html")
-        if os.path.exists(file_path):
-            return
+        # if os.path.exists(file_path):
+        #     return
         result, resp = self.get_html(bookid, code)
         if not result:
             return
